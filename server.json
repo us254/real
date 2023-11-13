@@ -1,0 +1,88 @@
+{
+  "log": {
+    "loglevel": "warning"
+  },
+  "routing": {
+    "domainStrategy": "IPIfNonMatch",
+    "rules": [
+      {
+        "type": "field",
+        "ip": [
+          "ext:ir.dat:ir"
+        ],
+        "outboundTag": "block"
+      },
+      {
+        "type": "field",
+        "outboundTag": "block",
+        "domain": [
+          "regexp:\\.ir$"
+        ]
+      },
+      {
+        "type": "field",
+        "ip": [
+          "::/0"
+        ],
+        "outboundTag": "v6"
+      }
+    ]
+  },
+  "inbounds": [
+    {
+      "listen": "0.0.0.0",
+      "port": 443,
+      "protocol": "vless",
+      "settings": {
+        "clients": [
+          {
+            "id": "xx",
+            "flow": "xtls-rprx-vision"
+          }
+        ],
+        "decryption": "none"
+      },
+      "streamSettings": {
+        "network": "tcp",
+        "security": "reality",
+        "realitySettings": {
+          "dest": "xx:443",
+          "serverNames": [
+            "xx"
+          ],
+          "privateKey": "xx",
+          "shortIds": [
+            "xx"
+          ]
+        }
+      },
+      "sniffing": {
+        "enabled": true,
+        "destOverride": [
+          "http",
+          "tls",
+          "quic"
+        ]
+      }
+    }
+  ],
+  "outbounds": [
+    {
+      "protocol": "freedom",
+      "tag": "direct"
+    },
+    {
+      "protocol": "freedom",
+      "streamSettings": {
+        "sockopt": {
+          "domainStrategy": "UseIPv6"
+        }
+      },
+      "tag": "v6"
+    },
+    {
+      "protocol": "blackhole",
+      "tag": "block"
+    }
+  ]
+}
