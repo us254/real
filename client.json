@@ -6,7 +6,7 @@
     "servers": [
       "1.1.1.1"
     ],
-    "queryStrategy": "UseIPv4"
+    "queryStrategy": "UseIP"
   },
   "routing": {
     "domainStrategy": "IPIfNonMatch",
@@ -83,15 +83,15 @@
           "serverName": "xx",
           "publicKey": "xx",
           "shortId": "xx"
-        },
-        "mux": {
-          "enabled": true,
-          "concurrency": -1,
-          "xudpConcurrency": 16,
-          "xudpProxyUDP443": "reject"
-        },
-        "tag": "proxy"
-      }
+        }
+      },
+      "mux": {
+        "enabled": true,
+        "concurrency": -1,
+        "xudpConcurrency": 128,
+        "xudpProxyUDP443": "reject"
+      },
+      "tag": "proxy"
     },
     {
       "protocol": "freedom",
